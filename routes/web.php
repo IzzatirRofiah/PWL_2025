@@ -63,4 +63,47 @@ Route::get('/user/{name?}', function ($name=null) {
 // Modif P3.2
 Route::get('/user/{name?}', function ($name='John') {
         return 'Nama saya '.$name;
-});      
+});
+
+// PRAKTIKUM 4
+use App\Http\Controllers\WelcomeController;
+
+Route::get('/hello', [WelcomeController::class, 'hello']);
+
+// PRAKTIKUM 5
+use App\Http\Controllers\PageController;
+
+// Route untuk halaman utama
+Route::get('/', [PageController::class, 'index']);
+
+// Route untuk halaman about
+Route::get('/about', [PageController::class, 'about']);
+
+// Route untuk halaman articles dengan parameter {id}
+Route::get('/articles/{id}', [PageController::class, 'articles']);
+
+// Route agar dapat terhubung dengan frontend
+use App\Http\Controllers\PhotoController;
+
+Route::resource('photos', PhotoController::class);
+
+// Update Route
+Route::resource('photos', PhotoController::class)->only([
+        'index', 'show'
+       ]);
+       Route::resource('photos', PhotoController::class)->except([
+        'create', 'store', 'update', 'destroy'
+       ]);
+
+// blade.php
+Route::get('/greeting', function () {
+        return view('hello', ['name' => 'Izzatir']);
+        });
+
+// Modif 1
+Route::get('/greeting', function () {
+	return view('blog.hello', ['name' => 'Izzatir']);
+});
+
+// Modif 2
+Route::get('/greeting', [WelcomeController::class, 'greeting']);
